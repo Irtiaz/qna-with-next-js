@@ -7,9 +7,9 @@ import instagramLogo from './pictures/instagram.jpg';
 import youtubeLogo from './pictures/youtube.jpg';
 import facebookLogo from './pictures/facebook.jpg';
 
-import { QuestionBox } from './Components/QuestionBox';
-import { QnA } from './Components/QNAItem';
-import { Navbar } from './Components/Navbar';
+import { QuestionBox } from '../Components/QuestionBox';
+import { QnA } from '../Components/QNAItem';
+import { Navbar } from '../Components/Navbar';
 import React, { useState } from 'react';
 
 import styles from '../styles/Home.module.css';

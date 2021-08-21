@@ -1,4 +1,4 @@
-import styles from '../../styles/QuestionBox.module.css';
+import styles from '../styles/QuestionBox.module.css';
 
 import { QNAItem, QnA } from './QNAItem';
 
