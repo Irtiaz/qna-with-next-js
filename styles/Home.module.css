@@ -1,0 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100;200&display=swap');
+
+.contentContainer {
+  background-color: #a9c2d6;
+  padding-top: 1em;
+}
+
+.questionMarkImageWrapperDiv {
+  text-align: center;
+}
+
+.questionMarkImageWrapperDiv img {
+  display: block;
+  margin: 0 auto;
+  height: 8.4em;
+}
+
+.contentContainer hr {
+  border: 1px solid #4c6d7c;
+  width: 70%;
+}
+
+.qnaHeader {
+  font-size: 2.25rem;
+  letter-spacing: 0.1em;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 500;
+  text-shadow: 3px 3px 2px grey;
+  text-align: center;
+  margin: 1em 0;
+}
+
+.questionForm {
+  width: 90%;
+  margin: 1em auto;
+}
+
+.questionForm textarea {
+  width: 100%;
+  font-size: 1.2rem;
+  padding: 1em;
+  height: 8em;
+  background-color: #d3dce4;
+  border-radius: 0.8em;
+  display: block;
+  resize: vertical;
+}
+
+.questionForm textarea:hover {
+  box-shadow: 0 4px 8px 0 rgb(0 0 0 / 24%), 0 4px 30px 0 rgb(0 0 0 / 19%);
+}
+
+.questionForm button {
+  --background-for-button: #a35db2;
+
+  font-size: 1.15rem;
+  padding: 0.3em 0.7em;
+  background-color: var(--background-for-button);
+  letter-spacing: 1px;
+  font-weight: 300;
+  color: white;
+  border: 1px solid var(--background-for-button);
+  border-radius: 0.5em;
+  margin: 0.8em 0 1.2em 0;
+  cursor: pointer;
+}
+
+.questionForm button:disabled {
+  --background-for-button: rgb(165, 163, 163);
+
+  background-color: var(--background-for-button);
+  color: rgb(122, 116, 116);
+  border: 1px solid var(--background-for-button);
+
+  cursor: not-allowed;
+}
+
+.questionForm button:hover:enabled {
+  border: 1px solid white;
+  box-shadow: 0 4px 8px 0 rgb(0 0 0 / 24%), 0 4px 30px 0 rgb(0 0 0 / 19%);
+}
+
+.footer {
+  background-color: #4c6d7c;
+  padding: 0.5em 1.5em;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.footer div {
+  width: 3em;
+  height: 3em;
+  display: inline-block;
+  border-radius: 3em;
+  margin: 0 0.5em;
+}

@@ -1,0 +1,28 @@
+.questionsBoxQnaItem {
+  font-size: 1.1em;
+  font-family: 'Hind Siliguri', sans-serif;
+  font-weight: 550;
+  border-bottom: 3px solid grey;
+  padding: 0.4em;
+  margin: 1em 0;
+}
+
+.qnaQuestionItemAndCollapse {
+  display: flex;
+  justify-content: space-between;
+}
+
+.qnaQuestionItemAndCollapse div {
+  color: rgb(214, 40, 40);
+}
+
+.qnaQuestionItemAndCollapse button {
+  background-color: transparent;
+  border: none;
+  font-size: 1.3rem;
+  cursor: pointer;
+}
+
+.qnaAnswerItem {
+  color: rgb(30, 114, 30);
+}
