@@ -148,24 +148,6 @@ const Home: NextPage<Props> = ({ questions }) => {
         {questions && questions.length > 0 && (
           <QuestionBox questions={questions} />
         )}
-
-        {/* <footer className={styles.footer}>
-          <div>
-            <a href='#'>
-              <Image src={instagramLogo} alt='instagram' />
-            </a>
-          </div>
-          <a href='#'>
-            <div>
-              <Image src={youtubeLogo} alt='youtube' />
-            </div>
-          </a>
-          <a href='#'>
-            <div>
-              <Image src={facebookLogo} alt='facebook' />
-            </div>
-          </a>
-        </footer> */}
       </div>
     </>
   );
