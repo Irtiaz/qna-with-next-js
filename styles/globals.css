@@ -14,3 +14,26 @@ a {
 * {
   box-sizing: border-box;
 }
+
+body {
+  background-color: #a9c2d6;
+}
+
+footer {
+  background-color: #4c6d7c;
+  padding: 0.5em 1.5em;
+  display: flex;
+  justify-content: flex-end;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  opacity: 0.7;
+}
+
+footer div {
+  width: 3em;
+  height: 3em;
+  display: inline-block;
+  border-radius: 3em;
+  margin: 0 0.5em;
+}

@@ -3,9 +3,6 @@ import Head from 'next/head';
 import Image from 'next/image';
 
 import questionMarkImage from './pictures/question-mark.png';
-import instagramLogo from './pictures/instagram.jpg';
-import youtubeLogo from './pictures/youtube.jpg';
-import facebookLogo from './pictures/facebook.jpg';
 
 import { QuestionBox } from '../Components/QuestionBox';
 import { QnA } from '../Components/QNAItem';
@@ -152,7 +149,7 @@ const Home: NextPage<Props> = ({ questions }) => {
           <QuestionBox questions={questions} />
         )}
 
-        <footer className={styles.footer}>
+        {/* <footer className={styles.footer}>
           <div>
             <a href='#'>
               <Image src={instagramLogo} alt='instagram' />
@@ -168,7 +165,7 @@ const Home: NextPage<Props> = ({ questions }) => {
               <Image src={facebookLogo} alt='facebook' />
             </div>
           </a>
-        </footer>
+        </footer> */}
       </div>
     </>
   );
