@@ -1,4 +1,4 @@
-import type { NextPage } from 'next';
+import type { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 
@@ -9,44 +9,83 @@ import facebookLogo from './pictures/facebook.jpg';
 
 import { QuestionBox } from '../Components/QuestionBox';
 import { QnA } from '../Components/QNAItem';
-import { Navbar } from '../Components/Navbar';
 import React, { useState } from 'react';
+import jwt from 'jsonwebtoken';
 
 import styles from '../styles/Home.module.css';
+import axios from 'axios';
+import { AlertBox } from '../Components/AlertBox';
 
-const Home: NextPage = () => {
-  const questions: QnA[] = [
-    {
-      question: 'What is my name?',
-      answer: 'You know well',
-    },
-    {
-      question: 'What is my name?',
-      answer: 'You know well',
-    },
-    {
-      question: 'What is my name?',
-      answer: 'You know well',
-    },
-    {
-      question: 'What is my name?',
-      answer: 'You know well',
-    },
-    {
-      question: 'What is my name?',
-      answer: 'You know well',
-    },
-    {
-      question: 'What is my name?',
-      answer: 'You know well',
-    },
-  ];
+interface Props {
+  questions: QnA[];
+}
 
+const Home: NextPage<Props> = ({ questions }) => {
   const [questionText, setQuestionText] = useState('');
+  const [alertBoxMessage, setAlertBoxMessage] = useState('');
+  const [loadingSubmission, setLoadingSubmission] = useState(false);
 
   function handleQuestionSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    alert('Question submission not yet implemented');
+
+    const data = {
+      question: questionText,
+    };
+
+    console.log(data);
+
+    setLoadingSubmission(true);
+
+    function showFailure() {
+      setAlertBoxMessage(
+        'Something went wrong while submitting your question!! Please check your internet connection'
+      );
+      setLoadingSubmission(false);
+    }
+
+    const secretKey: string | undefined = process.env.NEXT_PUBLIC_SECRET;
+    if (secretKey) {
+      jwt.sign(
+        data,
+        secretKey,
+        { algorithm: 'HS256', expiresIn: '7d' },
+        async (err, token) => {
+          if (err) {
+            console.log('error found while creating jwt token');
+            console.error(err);
+            showFailure();
+          } else if (token) {
+            try {
+              interface ResponseData {
+                success: boolean;
+              }
+
+              const response = await axios.post<ResponseData>(
+                'https://qnatest-backend.herokuapp.com/submit_question',
+                { token }
+              );
+
+              const { data } = response;
+
+              if (data.success) {
+                setAlertBoxMessage('Question submitted successfully');
+                setLoadingSubmission(false);
+              } else {
+                showFailure();
+              }
+            } catch (error) {
+              console.error(error);
+              showFailure();
+            }
+          }
+        }
+      );
+    } else {
+      console.error('secret key not found!');
+      showFailure();
+    }
+
+    setQuestionText('');
   }
 
   return (
@@ -55,8 +94,20 @@ const Home: NextPage = () => {
         <title>QNA</title>
         <meta name='description' content='QNA for acrylic'></meta>
       </Head>
-      <Navbar />
-      <div className={styles.contentContainer}>
+
+      {alertBoxMessage.length > 0 && (
+        <AlertBox
+          message={alertBoxMessage}
+          handleOk={() => setAlertBoxMessage('')}
+        />
+      )}
+
+      <div
+        className={styles.contentContainer}
+        style={{
+          opacity: alertBoxMessage ? 0.4 : 1,
+        }}
+      >
         <div className={styles.questionMarkImageWrapperDiv}>
           <Image src={questionMarkImage} alt='QnA' />
         </div>
@@ -68,10 +119,18 @@ const Home: NextPage = () => {
           onSubmit={(event) => handleQuestionSubmit(event)}
         >
           <textarea
+            value={questionText}
             onChange={(event) => setQuestionText(event.target.value)}
             placeholder='Say, How can we help you?'
             spellCheck={false}
           ></textarea>
+
+          {loadingSubmission && (
+            <div className={styles.submittingStatusDiv}>
+              Submitting question...
+            </div>
+          )}
+
           <div style={{ textAlign: 'right' }}>
             <button
               className={styles.submit}
@@ -82,7 +141,16 @@ const Home: NextPage = () => {
           </div>
         </form>
 
-        <QuestionBox questions={questions} />
+        {!questions && (
+          <div className={styles.errorLoadingQuestion}>
+            Questions could not be retrieved from the server. Please try again
+            later
+          </div>
+        )}
+
+        {questions && questions.length > 0 && (
+          <QuestionBox questions={questions} />
+        )}
 
         <footer className={styles.footer}>
           <div>
@@ -104,6 +172,45 @@ const Home: NextPage = () => {
       </div>
     </>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  interface GetQuestionResponse {
+    questions: QnA[];
+    success: boolean;
+  }
+
+  try {
+    const response = await axios.get<GetQuestionResponse>(
+      'https://qnatest-backend.herokuapp.com/get_question'
+    );
+    const data = response.data;
+
+    if (data.success) {
+      const questionsArray = data.questions;
+      return {
+        props: {
+          questions: questionsArray,
+        },
+      };
+    } else {
+      console.error('get questions failed');
+      return {
+        props: {
+          questions: null,
+        },
+      };
+    }
+  } catch (error) {
+    console.log('An error happened while fetching the questions');
+    console.error(error);
+
+    return {
+      props: {
+        questions: null,
+      },
+    };
+  }
 };
 
 export default Home;
