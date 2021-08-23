@@ -44,7 +44,6 @@ const Home: NextPage<Props> = ({ questions }) => {
     }
 
     const secretKey: string | undefined = process.env.NEXT_PUBLIC_SECRET;
-    console.log(secretKey);
     if (secretKey) {
       jwt.sign(
         data,
